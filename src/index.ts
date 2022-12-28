@@ -2,6 +2,7 @@ import { test } from './test' // чтобы не писать расширени
 // resolve: {
 //   extensions: ['.tsx', '.ts', '.js'],
 // },
+import './styles.scss';
 import CodeImageUrl from './assets/employee.png';
 import FacebookBase64 from './assets/leafs.png';
 

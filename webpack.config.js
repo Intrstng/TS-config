@@ -2,8 +2,20 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 //const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-module.exports = {
+const devServer = (isDev) => !isDev ? {} :   {
+  devServer: {
+  open: true,
+  hot: true,
+  port: 8080,
+  contentBase: path.join(__dirname, 'public')
+}
+}
+
+module.exports = ({develop}) => ({
+  mode: develop ? 'development' : 'production',
+  devtool: 'inline-source-map',
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -30,12 +42,12 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader({filename: '[name].[contenthash].css'}),
+        use: [MiniCssExtractPlugin.loader,
               "css-loader"],
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader({filename: '[name].[contenthash].css'}),
+        use: [MiniCssExtractPlugin.loader,
               "css-loader", 'sass-loader'],
       },
     ],
@@ -44,6 +56,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [new HtmlWebpackPlugin({template: './src/index.html'}),
+  new MiniCssExtractPlugin({filename: '[name].[contenthash].css'}),
   //new CleanWebpackPlugin({cleanStaleWebpackAssets: false}),
   // new CopyPlugin({
   //   patterns: [
@@ -51,4 +64,4 @@ module.exports = {
   //   ],
   // }),
 ],
-}
+})
