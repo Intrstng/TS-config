@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+//const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -27,6 +27,16 @@ module.exports = {
       {
         test: /\.(woff(2)?|eot|ttf|otf)$/i,
         type: 'asset/inline',
+      },
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader({filename: '[name].[contenthash].css'}),
+              "css-loader"],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [MiniCssExtractPlugin.loader({filename: '[name].[contenthash].css'}),
+              "css-loader", 'sass-loader'],
       },
     ],
   },
